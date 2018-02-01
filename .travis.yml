@@ -1,20 +1,22 @@
-sudo: required
-
 language: go
+
+sudo: required
 
 go:
   - 1.9.x
+install:
+  - echo "Please don't go get"
 
 services:
   - docker
 
 before_install:
-    - ./contrib/ci.sh
     
 script:
-    - make
+  - ./contrib/ci.sh
+  - make
 
 after_success:
-    - if [ ! -s "$TRAVIS_TAG" ] ; then
-      make docker-push
-    fi
+  - if [ ! -s "$TRAVIS_TAG" ] ; then
+    make docker-push
+  fi
