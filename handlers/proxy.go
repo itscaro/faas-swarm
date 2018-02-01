@@ -47,11 +47,11 @@ func FunctionProxy(wildcard bool, client *client.Client) http.HandlerFunc {
 
 		switch r.Method {
 		case "POST", "GET":
-			log.Print(r.Header)
+			debug("%s\n", r.Header)
 
 			xFunctionHeader := r.Header["X-Function"]
 			if len(xFunctionHeader) > 0 {
-				log.Print("X-Function: ", xFunctionHeader)
+				debug("X-Function: %s\n", xFunctionHeader)
 			}
 
 			// getServiceName
@@ -97,7 +97,7 @@ func lookupInvoke(w http.ResponseWriter, r *http.Request, name string, c *client
 }
 
 func lookupSwarmService(serviceName string, c *client.Client) (bool, error) {
-	fmt.Printf("Resolving: '%s'\n", serviceName)
+	debug("Resolving: '%s'\n", serviceName)
 	serviceFilter := filters.NewArgs()
 	serviceFilter.Add("name", serviceName)
 	services, err := c.ServiceList(context.Background(), types.ServiceListOptions{Filters: serviceFilter})
@@ -127,7 +127,7 @@ func invokeService(w http.ResponseWriter, r *http.Request, service string, forwa
 	url := forwardReq.ToURL(addr, watchdogPort)
 
 	contentType := r.Header.Get("Content-Type")
-	fmt.Printf("[%s] Forwarding request [%s] to: %s\n", stamp, contentType, url)
+	debug("[%s] Forwarding request [%s] to: %s\n", stamp, contentType, url)
 
 	if r.Body != nil {
 		defer r.Body.Close()

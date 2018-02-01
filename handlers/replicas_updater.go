@@ -41,7 +41,7 @@ func ReplicaUpdater(c *client.Client) http.HandlerFunc {
 			}
 		}
 
-		log.Printf("Scaling %s to %d replicas", functionName, req.Replicas)
+		debug("Scaling %s to %d replicas\n", functionName, req.Replicas)
 
 		scaleErr := scaleService(functionName, req.Replicas, serviceQuery)
 		if scaleErr != nil {

@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/docker/docker/client"
@@ -14,7 +13,7 @@ import (
 func ReplicaReader(c *client.Client) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		log.Println("Update replicas")
+		debug("Update replicas\n")
 
 		functions, err := readServices(c)
 		if err != nil {
