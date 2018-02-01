@@ -54,16 +54,11 @@ func FunctionProxy(wildcard bool, client *client.Client) http.HandlerFunc {
 				log.Print("X-Function: ", xFunctionHeader)
 			}
 
-			vars2 := mux.Vars(r)
-			// service := vars2["name"]
-			fmt.Println(vars2)
 			// getServiceName
 			var serviceName string
 			if wildcard {
 				vars := mux.Vars(r)
-				fmt.Println("vars ", vars)
-				name := vars["name"]
-				serviceName = name
+				serviceName = vars["name"]
 			} else if len(xFunctionHeader) > 0 {
 				serviceName = xFunctionHeader[0]
 			}
