@@ -1,14 +1,20 @@
 sudo: required
 
+language: go
+
+go:
+  - 1.9.x
+
 services:
-      - docker
-addons:
-  apt:
-    packages:
-      - docker-ce
+  - docker
 
 before_install:
     - ./contrib/ci.sh
     
 script:
     - make
+
+after_success:
+    - if [ ! -s "$TRAVIS_TAG" ] ; then
+      make docker-push
+    fi
